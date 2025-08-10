@@ -1,0 +1,12 @@
+.app{
+  text-align: left;
+}
+
+.container{
+  flex-direction: column;
+  height: 450px;
+}
+
+.qty-input{
+  width: 50%;
+}
