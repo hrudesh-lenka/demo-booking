@@ -3,20 +3,21 @@ import axios from 'axios';
 import { validation } from '../validators/validation';
 
 const BookingComponent = () => {
-    const url = "http://localhost:4800/bookings/";
+    // const url = "http://localhost:4800/bookings/";
+    const url = "https://crudcrud.com/api/fb4533a860294dfab4f2f2caec548056/bookings/"; // Example MockAPI endpoint
 
     const [state, setState] = useState({
         buffetName: "",
         emailId: "",
         plateCount: "",
-        bookedon: ""
+        bookedOn: ""
     });
 
     const [formErrors, setFormErrors] = useState({
         buffetNameError: "",
         emailIdError: "",
         plateCountError: "",
-        bookedonError: ""
+        bookedOnError: ""
     });
 
     const [mandatory, setMandatory] = useState(false);
@@ -35,7 +36,7 @@ const BookingComponent = () => {
 
     const validateField = (name, value) => {
         let errors = { ...formErrors };
-
+        const newState = { ...state, [name]: value };
         switch (name) {
             case "buffetName":
                 errors.buffetNameError = validation.validateBuffet(value)
@@ -49,8 +50,8 @@ const BookingComponent = () => {
                 errors.plateCountError = validation.validatePlatecount(value)
                     ? "" : messages.PLATE_COUNT_ERROR;
                 break;
-            case "bookedon":
-                errors.bookedonError = validation.validateDate(value)
+            case "bookedOn":
+                errors.bookedOnError = validation.validateDate(value)
                     ? "" : messages.BOOKEDON_ERROR;
                 break;
             default:
@@ -62,8 +63,8 @@ const BookingComponent = () => {
             errors.buffetNameError === "" &&
             errors.emailIdError === "" &&
             errors.plateCountError === "" &&
-            errors.bookedonError === "" &&
-            state.buffetName && state.emailId && state.plateCount && state.bookedon
+            errors.bookedOnError === "" &&
+            newState.buffetName && newState.emailId && newState.plateCount && newState.bookedOn
         );
     };
 
@@ -79,9 +80,9 @@ const BookingComponent = () => {
         setSuccessMessage("");
         setErrorMessage("");
 
-        const { buffetName, emailId, plateCount, bookedon } = state;
+        const { buffetName, emailId, plateCount, bookedOn } = state;
 
-        if (!buffetName || !emailId || !plateCount || !bookedon) {
+        if (!buffetName || !emailId || !plateCount || !bookedOn) {
             setMandatory(true);
             return;
         }
@@ -89,7 +90,7 @@ const BookingComponent = () => {
         try {
             const response = await axios.post(url, state);
             setSuccessMessage(`Booking is successfully created with bookingId: ${response.data.id}`);
-            setState({ buffetName: "", emailId: "", plateCount: "", bookedon: "" });
+            setState({ buffetName: "", emailId: "", plateCount: "", bookedOn: "" });
         } catch (err) {
             setErrorMessage(messages.ERROR);
         }
@@ -168,15 +169,15 @@ const BookingComponent = () => {
                                     <label>Booking Date</label>
                                     <input
                                         type="date"
-                                        data-testid="bookedon"
-                                        name="bookedon"
+                                        data-testid="bookedOn"
+                                        name="bookedOn"
                                         className="form-control"
-                                        value={state.bookedon}
+                                        value={state.bookedOn}
                                         onChange={handleChange}
                                     />
-                                    {formErrors.bookedonError && (
+                                    {formErrors.bookedOnError && (
                                         <span data-testid="bookingDate-error" className="text-danger">
-                                            {formErrors.bookedonError}
+                                            {formErrors.bookedOnError}
                                         </span>
                                     )}
                                 </div>

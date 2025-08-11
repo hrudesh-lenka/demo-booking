@@ -21,7 +21,10 @@ const ViewBooking = () => {
   const handleAction = async (action) => {
     if (action === "onDelete") {
       try {
-        await axios.delete(`http://localhost:4008/bookings/${bookingId}`);
+        await axios.delete(
+          // `http://localhost:4008/bookings/${bookingId}`
+          `https://crudcrud.com/api/fb4533a860294dfab4f2f2caec548056/bookings/${bookingId}`
+        );
         setInfoMessage(messages.INFO);
         setBookingData(null);
       } catch (error) {
@@ -36,9 +39,17 @@ const ViewBooking = () => {
     event.preventDefault();
     try {
       const response = await axios.get(
-        `http://localhost:4008/bookings/${bookingId}`
+        // `http://localhost:4008/bookings/${bookingId}`
+        `https://crudcrud.com/api/fb4533a860294dfab4f2f2caec548056/bookings/${bookingId}`
       );
-      setBookingData(response.data);
+      // setBookingData(response.data);
+      setBookingData({
+        id: response.data._id,
+        buffetName: response.data.buffetName,
+        emailId: response.data.emailId,
+        plateCount: response.data.plateCount,
+        bookingDate: response.data.bookedOn,
+      });
       setInfoMessage("");
     } catch (error) {
       setInfoMessage(messages.NOT_FOUND(bookingId));

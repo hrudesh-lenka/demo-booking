@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
-const url = "http://localhost:4000/bookings/";
+// const url = "http://localhost:4000/bookings/";
+const url = "https://crudcrud.com/api/fb4533a860294dfab4f2f2caec548056/bookings/"; // Example MockAPI endpoint
 
 const UpdateBooking = () => {
   const { id } = useParams();
@@ -56,7 +57,8 @@ const UpdateBooking = () => {
     };
 
     axios
-      .put(url + booking.id, newBooking)
+      // .put(url + booking.id, newBooking)
+      .put(url + id, newBooking)
       .then(() => {
         setSuccess(`Booking has been updated: ${booking.id}`);
         setErrMsg("");
